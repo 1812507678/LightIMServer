@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ideaout.im.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.ideaout.im.domain.User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="channel" property="channel" jdbcType="INTEGER" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="icon_url" property="iconUrl" jdbcType="VARCHAR" />
+    <result column="icon_small_url" property="iconSmallUrl" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="timestamp" property="timestamp" jdbcType="BIGINT" />
+    <result column="datetime" property="datetime" jdbcType="TIMESTAMP" />
+    <result column="last_timestamp" property="lastTimestamp" jdbcType="BIGINT" />
+    <result column="app_key" property="appKey" jdbcType="VARCHAR" />
+    <result column="client_type" property="clientType" jdbcType="INTEGER" />
+    <result column="out_user_id" property="outUserId" jdbcType="VARCHAR" />
+    <result column="device_unique_id" property="deviceUniqueId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, channel, nickname, icon_url, icon_small_url, state, type, timestamp, datetime, 
+    last_timestamp, app_key, client_type, out_user_id, device_unique_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ideaout.im.domain.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ideaout.im.domain.UserExample" >
+    delete from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ideaout.im.domain.User" useGeneratedKeys="true" keyProperty="id">
+    insert into user (id, channel, nickname, 
+      icon_url, icon_small_url, state, 
+      type, timestamp, datetime, 
+      last_timestamp, app_key, client_type, 
+      out_user_id, device_unique_id)
+    values (#{id,jdbcType=INTEGER}, #{channel,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, 
+      #{iconUrl,jdbcType=VARCHAR}, #{iconSmallUrl,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{timestamp,jdbcType=BIGINT}, #{datetime,jdbcType=TIMESTAMP}, 
+      #{lastTimestamp,jdbcType=BIGINT}, #{appKey,jdbcType=VARCHAR}, #{clientType,jdbcType=INTEGER}, 
+      #{outUserId,jdbcType=VARCHAR}, #{deviceUniqueId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ideaout.im.domain.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="channel != null" >
+        channel,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="iconUrl != null" >
+        icon_url,
+      </if>
+      <if test="iconSmallUrl != null" >
+        icon_small_url,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="timestamp != null" >
+        timestamp,
+      </if>
+      <if test="datetime != null" >
+        datetime,
+      </if>
+      <if test="lastTimestamp != null" >
+        last_timestamp,
+      </if>
+      <if test="appKey != null" >
+        app_key,
+      </if>
+      <if test="clientType != null" >
+        client_type,
+      </if>
+      <if test="outUserId != null" >
+        out_user_id,
+      </if>
+      <if test="deviceUniqueId != null" >
+        device_unique_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="iconUrl != null" >
+        #{iconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="iconSmallUrl != null" >
+        #{iconSmallUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="timestamp != null" >
+        #{timestamp,jdbcType=BIGINT},
+      </if>
+      <if test="datetime != null" >
+        #{datetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastTimestamp != null" >
+        #{lastTimestamp,jdbcType=BIGINT},
+      </if>
+      <if test="appKey != null" >
+        #{appKey,jdbcType=VARCHAR},
+      </if>
+      <if test="clientType != null" >
+        #{clientType,jdbcType=INTEGER},
+      </if>
+      <if test="outUserId != null" >
+        #{outUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceUniqueId != null" >
+        #{deviceUniqueId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ideaout.im.domain.UserExample" resultType="java.lang.Integer" >
+    select count(*) from user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.channel != null" >
+        channel = #{record.channel,jdbcType=INTEGER},
+      </if>
+      <if test="record.nickname != null" >
+        nickname = #{record.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iconUrl != null" >
+        icon_url = #{record.iconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iconSmallUrl != null" >
+        icon_small_url = #{record.iconSmallUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.timestamp != null" >
+        timestamp = #{record.timestamp,jdbcType=BIGINT},
+      </if>
+      <if test="record.datetime != null" >
+        datetime = #{record.datetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastTimestamp != null" >
+        last_timestamp = #{record.lastTimestamp,jdbcType=BIGINT},
+      </if>
+      <if test="record.appKey != null" >
+        app_key = #{record.appKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientType != null" >
+        client_type = #{record.clientType,jdbcType=INTEGER},
+      </if>
+      <if test="record.outUserId != null" >
+        out_user_id = #{record.outUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceUniqueId != null" >
+        device_unique_id = #{record.deviceUniqueId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user
+    set id = #{record.id,jdbcType=INTEGER},
+      channel = #{record.channel,jdbcType=INTEGER},
+      nickname = #{record.nickname,jdbcType=VARCHAR},
+      icon_url = #{record.iconUrl,jdbcType=VARCHAR},
+      icon_small_url = #{record.iconSmallUrl,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      timestamp = #{record.timestamp,jdbcType=BIGINT},
+      datetime = #{record.datetime,jdbcType=TIMESTAMP},
+      last_timestamp = #{record.lastTimestamp,jdbcType=BIGINT},
+      app_key = #{record.appKey,jdbcType=VARCHAR},
+      client_type = #{record.clientType,jdbcType=INTEGER},
+      out_user_id = #{record.outUserId,jdbcType=VARCHAR},
+      device_unique_id = #{record.deviceUniqueId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ideaout.im.domain.User" >
+    update user
+    <set >
+      <if test="channel != null" >
+        channel = #{channel,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="iconUrl != null" >
+        icon_url = #{iconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="iconSmallUrl != null" >
+        icon_small_url = #{iconSmallUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="timestamp != null" >
+        timestamp = #{timestamp,jdbcType=BIGINT},
+      </if>
+      <if test="datetime != null" >
+        datetime = #{datetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastTimestamp != null" >
+        last_timestamp = #{lastTimestamp,jdbcType=BIGINT},
+      </if>
+      <if test="appKey != null" >
+        app_key = #{appKey,jdbcType=VARCHAR},
+      </if>
+      <if test="clientType != null" >
+        client_type = #{clientType,jdbcType=INTEGER},
+      </if>
+      <if test="outUserId != null" >
+        out_user_id = #{outUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceUniqueId != null" >
+        device_unique_id = #{deviceUniqueId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ideaout.im.domain.User" >
+    update user
+    set channel = #{channel,jdbcType=INTEGER},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      icon_url = #{iconUrl,jdbcType=VARCHAR},
+      icon_small_url = #{iconSmallUrl,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      timestamp = #{timestamp,jdbcType=BIGINT},
+      datetime = #{datetime,jdbcType=TIMESTAMP},
+      last_timestamp = #{lastTimestamp,jdbcType=BIGINT},
+      app_key = #{appKey,jdbcType=VARCHAR},
+      client_type = #{clientType,jdbcType=INTEGER},
+      out_user_id = #{outUserId,jdbcType=VARCHAR},
+      device_unique_id = #{deviceUniqueId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

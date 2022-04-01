@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ideaout.im.dao.MessageMapper" >
+  <resultMap id="BaseResultMap" type="com.ideaout.im.domain.Message" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="from_user_id" property="fromUserId" jdbcType="INTEGER" />
+    <result column="to_user_id" property="toUserId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="text" property="text" jdbcType="VARCHAR" />
+    <result column="file_url" property="fileUrl" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="extra" property="extra" jdbcType="VARCHAR" />
+    <result column="timestamp" property="timestamp" jdbcType="BIGINT" />
+    <result column="datetime" property="datetime" jdbcType="TIMESTAMP" />
+    <result column="conversation_id" property="conversationId" jdbcType="INTEGER" />
+    <result column="file_small_url" property="fileSmallUrl" jdbcType="VARCHAR" />
+    <result column="cover_img_url" property="coverImgUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, from_user_id, to_user_id, type, text, file_url, state, extra, timestamp, datetime, 
+    conversation_id, file_small_url, cover_img_url
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ideaout.im.domain.MessageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from message
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from message
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ideaout.im.domain.MessageExample" >
+    delete from message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ideaout.im.domain.Message" useGeneratedKeys="true" keyProperty="id">
+    insert into message (id, from_user_id, to_user_id, 
+      type, text, file_url, 
+      state, extra, timestamp, 
+      datetime, conversation_id, file_small_url, 
+      cover_img_url)
+    values (#{id,jdbcType=INTEGER}, #{fromUserId,jdbcType=INTEGER}, #{toUserId,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{text,jdbcType=VARCHAR}, #{fileUrl,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER}, #{extra,jdbcType=VARCHAR}, #{timestamp,jdbcType=BIGINT}, 
+      #{datetime,jdbcType=TIMESTAMP}, #{conversationId,jdbcType=INTEGER}, #{fileSmallUrl,jdbcType=VARCHAR}, 
+      #{coverImgUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ideaout.im.domain.Message" >
+    insert into message
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="fromUserId != null" >
+        from_user_id,
+      </if>
+      <if test="toUserId != null" >
+        to_user_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="text != null" >
+        text,
+      </if>
+      <if test="fileUrl != null" >
+        file_url,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="extra != null" >
+        extra,
+      </if>
+      <if test="timestamp != null" >
+        timestamp,
+      </if>
+      <if test="datetime != null" >
+        datetime,
+      </if>
+      <if test="conversationId != null" >
+        conversation_id,
+      </if>
+      <if test="fileSmallUrl != null" >
+        file_small_url,
+      </if>
+      <if test="coverImgUrl != null" >
+        cover_img_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fromUserId != null" >
+        #{fromUserId,jdbcType=INTEGER},
+      </if>
+      <if test="toUserId != null" >
+        #{toUserId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="text != null" >
+        #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUrl != null" >
+        #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="timestamp != null" >
+        #{timestamp,jdbcType=BIGINT},
+      </if>
+      <if test="datetime != null" >
+        #{datetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="conversationId != null" >
+        #{conversationId,jdbcType=INTEGER},
+      </if>
+      <if test="fileSmallUrl != null" >
+        #{fileSmallUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="coverImgUrl != null" >
+        #{coverImgUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ideaout.im.domain.MessageExample" resultType="java.lang.Integer" >
+    select count(*) from message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update message
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.fromUserId != null" >
+        from_user_id = #{record.fromUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.toUserId != null" >
+        to_user_id = #{record.toUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.text != null" >
+        text = #{record.text,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileUrl != null" >
+        file_url = #{record.fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.extra != null" >
+        extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+      <if test="record.timestamp != null" >
+        timestamp = #{record.timestamp,jdbcType=BIGINT},
+      </if>
+      <if test="record.datetime != null" >
+        datetime = #{record.datetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.conversationId != null" >
+        conversation_id = #{record.conversationId,jdbcType=INTEGER},
+      </if>
+      <if test="record.fileSmallUrl != null" >
+        file_small_url = #{record.fileSmallUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coverImgUrl != null" >
+        cover_img_url = #{record.coverImgUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update message
+    set id = #{record.id,jdbcType=INTEGER},
+      from_user_id = #{record.fromUserId,jdbcType=INTEGER},
+      to_user_id = #{record.toUserId,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      text = #{record.text,jdbcType=VARCHAR},
+      file_url = #{record.fileUrl,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=INTEGER},
+      extra = #{record.extra,jdbcType=VARCHAR},
+      timestamp = #{record.timestamp,jdbcType=BIGINT},
+      datetime = #{record.datetime,jdbcType=TIMESTAMP},
+      conversation_id = #{record.conversationId,jdbcType=INTEGER},
+      file_small_url = #{record.fileSmallUrl,jdbcType=VARCHAR},
+      cover_img_url = #{record.coverImgUrl,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ideaout.im.domain.Message" >
+    update message
+    <set >
+      <if test="fromUserId != null" >
+        from_user_id = #{fromUserId,jdbcType=INTEGER},
+      </if>
+      <if test="toUserId != null" >
+        to_user_id = #{toUserId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="text != null" >
+        text = #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUrl != null" >
+        file_url = #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="extra != null" >
+        extra = #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="timestamp != null" >
+        timestamp = #{timestamp,jdbcType=BIGINT},
+      </if>
+      <if test="datetime != null" >
+        datetime = #{datetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="conversationId != null" >
+        conversation_id = #{conversationId,jdbcType=INTEGER},
+      </if>
+      <if test="fileSmallUrl != null" >
+        file_small_url = #{fileSmallUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="coverImgUrl != null" >
+        cover_img_url = #{coverImgUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ideaout.im.domain.Message" >
+    update message
+    set from_user_id = #{fromUserId,jdbcType=INTEGER},
+      to_user_id = #{toUserId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      text = #{text,jdbcType=VARCHAR},
+      file_url = #{fileUrl,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      extra = #{extra,jdbcType=VARCHAR},
+      timestamp = #{timestamp,jdbcType=BIGINT},
+      datetime = #{datetime,jdbcType=TIMESTAMP},
+      conversation_id = #{conversationId,jdbcType=INTEGER},
+      file_small_url = #{fileSmallUrl,jdbcType=VARCHAR},
+      cover_img_url = #{coverImgUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="queryMsgList" resultMap="BaseResultMap" parameterType="com.ideaout.im.http.param.QueryMsgListParam" >
+    SELECT * from message
+    where
+    <if test="param.conversationId > 0" >
+      conversation_id = #{param.conversationId,jdbcType=INTEGER}
+    </if>
+    <if test="param.conversationId == 0" >
+      (
+      (from_user_id=#{param.userId,jdbcType=INTEGER} and to_user_id=#{param.otherUserId,jdbcType=INTEGER}) ||
+      (from_user_id=#{param.otherUserId,jdbcType=INTEGER} and to_user_id=#{param.userId,jdbcType=INTEGER})
+      )
+    </if>
+    and state!='2'
+    order by  timestamp desc
+    <if test="param.pageIndex != null">
+      limit ${param.pageIndex*param.pageSize},${param.pageSize};
+    </if>
+  </select>
+
+
+</mapper>

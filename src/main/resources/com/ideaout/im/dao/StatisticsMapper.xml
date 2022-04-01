@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ideaout.im.dao.StatisticsMapper" >
+  <resultMap id="StatisticsCountResultMap" type="com.ideaout.im.bean.StatisticsCount" >
+    <result column="app_key" property="appKey" jdbcType="REAL" />
+    <result column="count" property="count" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!--查询指定日期的注册用户-->
+  <select id="queryRegisterUserCount" parameterType="com.ideaout.im.http.param.StaCountParam" resultMap="StatisticsCountResultMap" >
+    SELECT a.app_key,count(*) as count from user u left join app a on u.app_key=a.app_key
+    where a.user_id=#{param.userId}
+    <if test="param.startDate != null" >
+      and FROM_UNIXTIME(u.timestamp/1000,'%Y-%m-%d') &gt;= #{param.startDate,jdbcType=VARCHAR}
+      and FROM_UNIXTIME(u.timestamp/1000,'%Y-%m-%d') &lt;= #{param.endDate,jdbcType=VARCHAR}
+    </if>
+    GROUP BY a.app_key
+  </select>
+
+  <!--查询指定日期的消息数（2次左连接）-->
+  <select id="queryMessageCount" parameterType="com.ideaout.im.http.param.StaCountParam" resultMap="StatisticsCountResultMap" >
+    SELECT a.app_key,count(*) as count from message m left join user u on m.from_user_id=u.id left join app a on u.app_key=a.app_key
+    where a.user_id=#{param.userId}
+    and FROM_UNIXTIME(m.timestamp/1000,'%Y-%m-%d') &gt;= #{param.startDate,jdbcType=VARCHAR}
+    and FROM_UNIXTIME(m.timestamp/1000,'%Y-%m-%d') &lt;= #{param.endDate,jdbcType=VARCHAR}
+    GROUP BY a.app_key
+  </select>
+
+
+</mapper>
